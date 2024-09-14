@@ -1,34 +1,23 @@
-import {
-  API,
-  DynamicPlatformPlugin,
-  Logger,
-  PlatformAccessory,
-  PlatformConfig,
-  Service,
-  Characteristic
-} from 'homebridge';
+const { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } = require('homebridge');
 
-const PLUGIN_NAME = 'homebridge-dummy-switch';
+const PLUGIN_NAME = 'homebridge-dummy-v2';
 const PLATFORM_NAME = 'HomebridgeDummySwitchPlatform';
 
-let switchOnTimeout: NodeJS.Timeout;
-let delayTimeout: NodeJS.Timeout;
+let switchOnTimeout;
+let delayTimeout;
 
-export = (api: API) => {
+module.exports = (api) => {
   api.registerPlatform(PLATFORM_NAME, HomebridgeDummySwitchPlatform);
 };
 
-class HomebridgeDummySwitchPlatform implements DynamicPlatformPlugin {
-  private readonly log: Logger;
-  private readonly config: PlatformConfig;
-  private readonly api: API;
-
-  private readonly accessories: PlatformAccessory[] = [];
-
-  constructor(log: Logger, config: PlatformConfig, api: API) {
+class HomebridgeDummySwitchPlatform extends DynamicPlatformPlugin {
+  constructor(log, config, api) {
+    super(log, config, api);
     this.log = log;
     this.config = config;
     this.api = api;
+
+    this.accessories = [];
 
     this.api.on('didFinishLaunching', this.didFinishLaunching.bind(this));
   }
@@ -55,7 +44,7 @@ class HomebridgeDummySwitchPlatform implements DynamicPlatformPlugin {
     this.startRepeatingCycle(service, delayTime);
   }
 
-  startRepeatingCycle(service: Service, delayTime: number) {
+  startRepeatingCycle(service, delayTime) {
     const delayMs = delayTime * 1000; // Convert delay time from seconds to milliseconds
     this.log.info(`Starting the automatic cycle with a ${delayTime} second delay.`);
 
@@ -80,7 +69,7 @@ class HomebridgeDummySwitchPlatform implements DynamicPlatformPlugin {
     return false; // Default is OFF
   }
 
-  handleOnSet(value: boolean) {
+  handleOnSet(value) {
     this.log.info('Setting switch state to', value);
   }
 }
