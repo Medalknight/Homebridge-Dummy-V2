@@ -1,6 +1,4 @@
-const Service, Characteristic;
-let switchTimer;
-let offTimeInMinutes = 5; // Standard-Zeit in Minuten (konfigurierbar)
+let Service, Characteristic; // Variablen ohne const und keine Initialisierung
 
 module.exports = (homebridge) => {
     Service = homebridge.hap.Service;
@@ -13,7 +11,7 @@ class RepeatSwitch {
     constructor(log, config) {
         this.log = log;
         this.name = config.name || 'Repeat Switch';
-        this.offTimeInMinutes = config.offTimeInMinutes || offTimeInMinutes; // Konfigurierbare Ausschaltzeit in Minuten
+        this.offTimeInMinutes = config.offTimeInMinutes || 5; // Standard-Zeit in Minuten
         this.switchState = false; // Switch ist standardmäßig aus
 
         // Service für den Dummy-Switch
@@ -36,7 +34,7 @@ class RepeatSwitch {
         if (this.switchState) {
             this.startSwitchTimer();
         } else {
-            clearTimeout(switchTimer);
+            clearTimeout(this.switchTimer);
         }
 
         callback(null);
@@ -44,11 +42,11 @@ class RepeatSwitch {
 
     // Timer starten, um den Switch nach der konfigurierten Zeit wieder auszuschalten
     startSwitchTimer() {
-        clearTimeout(switchTimer);
+        clearTimeout(this.switchTimer);
 
         this.log(`Switch will turn off in ${this.offTimeInMinutes} minute(s).`);
         
-        switchTimer = setTimeout(() => {
+        this.switchTimer = setTimeout(() => {
             this.switchState = false;
             this.service.getCharacteristic(Characteristic.On).updateValue(this.switchState);
             this.log('Switch turned off.');
