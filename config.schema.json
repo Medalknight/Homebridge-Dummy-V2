@@ -1,78 +1,15 @@
 {
-    "pluginAlias": "DummySwitch",
-    "pluginType": "accessory",
-    "headerDisplay": "Dummy Switch",
-    "singular": false,
-    "schema": {
-        "type": "object",
-        "properties": {
-            "name": {
-                "title": "Name",
-                "type": "string",
-                "required": true,
-                "description": "The name of the switch",
-                "placeholder": "Dummy Switch"
-            },
-            "stateful": {
-                "title": "Stateful",
-                "type": "boolean",
-                "default": false,
-                "description": "The switch remains on instead of being automatically turned off.",
-                "placeholder": false
-            },
-            "dimmer": {
-                "title": "Dimmer",
-                "type": "boolean",
-                "default": false,
-                "description": "Make the switch a dimmer instead of a toggle (on/off) switch",
-                "placeholder": false
-            },
-            "reverse": {
-                "title": "Reverse",
-                "type": "boolean",
-                "default": false,
-                "description": "The switch's default state is on.",
-                "placeholder": false
-            },
-            "time": {
-                "title": "Time",
-                "type": "number",
-                "default": 1000,
-                "description": "The switch will turn off after this number of milliseconds. Not used if the switch is stateful.",
-                "placeholder": 1000,
-                "minimum": 0
-            },
-            "random": {
-                "title": "Random",
-                "type": "boolean",
-                "default": false,
-                "description": "Randomize the time until a switch turns off. Not used if the switch is stateful.",
-                "placeholder": false
-            },
-            "resettable": {
-                "title": "Resettable",
-                "type": "boolean",
-                "default": false,
-                "description": "The timer will reset each time the switch is turned on.",
-                "placeholder": false
-            },
-            "brightness": {
-                "title": "Brightness",
-                "type": "integer",
-                "default": 0,
-                "placeholder": 0,
-                "maximum": 100,
-                "minimum": 0,
-                "description": "Starting brightness (dimmer only)"
-            },
-            "disableLogging": {
-                "title": "Disable Logging",
-                "type": "boolean",
-                "default": false,
-                "description": "No state change information (On/Off) will be logged.",
-                "placeholder": false
-            }
-        },
-        "required": ["name"]
+  "bridge": {
+    "name": "Homebridge",
+    "username": "CC:22:3D:E3:CE:30",
+    "port": 51826,
+    "pin": "031-45-154"
+  },
+  "accessories": [
+    {
+      "accessory": "RepeatSwitch",
+      "name": "Dummy Repeat Switch",
+      "offTimeInMinutes": 5  // Zeit in Minuten bis zum Ausschalten
     }
+  ]
 }
