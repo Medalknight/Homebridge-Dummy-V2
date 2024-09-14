@@ -1,6 +1,6 @@
 {
   "name": "homebridge-dummy-v2",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A simple Homebridge plugin that creates a dummy switch with automatic on/off cycles.",
   "main": "src/index.js",
   "scripts": {
