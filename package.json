@@ -1,17 +1,17 @@
 {
   "name": "homebridge-dummy-v2",
   "version": "0.0.1",
-  "description": "Dummy switches for Homebridge: https://github.com/Medalknight/Homebridge-Dummy-V2",
+  "description": "Dummy switches for Homebridge: https://github.com/Medalknight/homebridge-dummy-v2",
   "license": "ISC",
   "keywords": [
     "homebridge-plugin"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/Medalknight/Homebridge-Dummy-V2.git"
+    "url": "git://github.com/Medalknight/homebridge-dummy-v2.git"
   },
   "bugs": {
-    "url": "https://github.com/Medalknight/Homebridge-Dummy-V2/issues"
+    "url": "https://github.com/Medalknight/homebridge-dummy-v2/issues"
   },
   "engines": {
     "node": ">=12.0.0",
