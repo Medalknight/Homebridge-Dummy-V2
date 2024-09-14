@@ -9,7 +9,7 @@
     {
       "accessory": "RepeatSwitch",
       "name": "Dummy Repeat Switch",
-      "offTimeInMinutes": 5  // Zeit in Minuten bis zum Ausschalten
+      "offTimeInMinutes": 5
     }
   ]
 }
