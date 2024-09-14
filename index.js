@@ -1,16 +1,14 @@
 "use strict";
 
-// Service und Characteristic werden von der homebridge-API bereitgestellt
-let Service, Characteristic;
-const { HomebridgeDummyVersion } = require('./package.json'); // Version aus package.json
 const storage = require('node-persist'); // Storage-Modul für persistente Speicherung von Zuständen
+const { HomebridgeDummyVersion } = require('./package.json'); // Version aus package.json
 
 module.exports = (api) => {
-  // Registrierung des Zubehörs
+  // Registrieren des Zubehörs
   api.registerAccessory("homebridge-dummy-v2", "DummySwitch", DummySwitch);
 }
 
-function DummySwitch(log, config, api) { // Der Constructor nimmt jetzt auch die api entgegen
+function DummySwitch(log, config, api) { // Constructor nimmt jetzt auch die api entgegen
   this.log = log;
   this.name = config.name;
   this.stateful = config.stateful;
@@ -29,6 +27,9 @@ function DummySwitch(log, config, api) { // Der Constructor nimmt jetzt auch die
 
   // Initialisierung des Speichers
   storage.initSync({ dir: this.cacheDirectory, forgiveParseErrors: true });
+
+  // Zugriff auf Service und Characteristic
+  const { Service, Characteristic } = this.api.hap; // Homebridge API-Objekte holen
 
   // Festlegen des Service-Typs: Dimmer oder Switch
   if (this.dimmer) {
