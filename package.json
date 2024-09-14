@@ -1,23 +1,36 @@
 {
   "name": "homebridge-dummy-v2",
-  "version": "0.0.3",
-  "description": "Dummy switches for Homebridge: https://github.com/Medalknight/homebridge-dummy-v2",
-  "license": "ISC",
-  "keywords": [
-    "homebridge-plugin"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/Medalknight/homebridge-dummy-v2.git"
+  "version": "1.0.0",
+  "description": "A simple Homebridge plugin that creates a dummy switch with automatic on/off cycles.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
   },
-  "bugs": {
-    "url": "https://github.com/Medalknight/homebridge-dummy-v2/issues"
-  },
+  "keywords": ["homebridge-plugin"],
   "engines": {
-    "node": ">=12.0.0",
-    "homebridge": ">=1.0.0"
+    "homebridge": "^1.0.0"
   },
   "dependencies": {
-    "node-persist": "^2.1.0"
+    "homebridge": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.0",
+    "@types/node": "^14.0.0",
+    "homebridge-config-ui-x": "^4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Medalknight/homebridge-dummy-v2"
+  },
+  "author": "Your Name",
+  "license": "ISC",
+  "private": true,
+  "homebridge": {
+    "name": "HomebridgeDummySwitch",
+    "version": "1.0.0",
+    "tag": "dummy-switch",
+    "child": true,
+    "platform": "HomebridgeDummySwitchPlatform"
   }
 }
