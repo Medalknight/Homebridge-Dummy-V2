@@ -14,8 +14,8 @@
     "url": "https://github.com/Medalknight/Homebridge-Dummy-V2/issues"
   },
   "engines": {
-    "node": ">=12.0.0",  // Mindestversion auf Node.js 12 aktualisiert, da ältere Versionen nicht mehr unterstützt werden
-    "homebridge": ">=1.0.0"  // Homebridge auf Version 1.0.0+ festgelegt, da Homebridge V2 dies erfordert
+    "node": ">=12.0.0",
+    "homebridge": ">=1.0.0"
   },
   "dependencies": {
     "node-persist": "^2.1.0"
