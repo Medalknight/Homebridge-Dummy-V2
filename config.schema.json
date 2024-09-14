@@ -73,6 +73,6 @@
                 "placeholder": false
             }
         },
-        "required": ["name"] // Das 'required' Attribut gehört jetzt auf Objektebene in V2
+        "required": ["name"]
     }
 }
