@@ -7,7 +7,7 @@ const storage = require('node-persist'); // Storage-Modul für persistente Speic
 
 module.exports = (api) => {
   // Registrierung des Zubehörs
-  api.registerAccessory("homebridge-dummy", "DummySwitch", DummySwitch);
+  api.registerAccessory("homebridge-dummy-v2", "DummySwitch", DummySwitch);
 }
 
 function DummySwitch(log, config, api) { // Der Constructor nimmt jetzt auch die api entgegen
