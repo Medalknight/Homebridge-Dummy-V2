@@ -22,7 +22,6 @@
   },
   "author": "Your Name",
   "license": "ISC",
-  "private": true,
   "homebridge": {
     "name": "HomebridgeDummySwitch",
     "version": "0.0.5",
