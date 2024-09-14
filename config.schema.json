@@ -1,7 +1,7 @@
 {
     "pluginAlias": "DummySwitch",
     "pluginType": "accessory",
-    "headerDisplay": "Dummy Switch", // Homebridge V2 benötigt eine Header-Anzeige
+    "headerDisplay": "Dummy Switch",
     "singular": false,
     "schema": {
         "type": "object",
@@ -10,51 +10,51 @@
                 "title": "Name",
                 "type": "string",
                 "required": true,
-                "description": "The name of the switch", // Beschreibung hinzugefügt, um konsistent zu sein
-                "placeholder": "Dummy Switch" // Standardwert als Platzhalter für den Namen hinzugefügt
+                "description": "The name of the switch",
+                "placeholder": "Dummy Switch"
             },
             "stateful": {
                 "title": "Stateful",
                 "type": "boolean",
                 "default": false,
                 "description": "The switch remains on instead of being automatically turned off.",
-                "placeholder": false // Platzhalter für boolesche Felder erforderlich
+                "placeholder": false
             },
             "dimmer": {
                 "title": "Dimmer",
                 "type": "boolean",
                 "default": false,
                 "description": "Make the switch a dimmer instead of a toggle (on/off) switch",
-                "placeholder": false // Platzhalter hinzugefügt
+                "placeholder": false
             },
             "reverse": {
                 "title": "Reverse",
                 "type": "boolean",
                 "default": false,
                 "description": "The switch's default state is on.",
-                "placeholder": false // Platzhalter hinzugefügt
+                "placeholder": false
             },
             "time": {
                 "title": "Time",
                 "type": "number",
                 "default": 1000,
                 "description": "The switch will turn off after this number of milliseconds. Not used if the switch is stateful.",
-                "placeholder": 1000, // Platzhalter für Zahlenfelder erforderlich
-                "minimum": 0 // Mindestwert für 'time' hinzugefügt, da Homebridge V2 dies benötigt
+                "placeholder": 1000,
+                "minimum": 0
             },
             "random": {
                 "title": "Random",
                 "type": "boolean",
                 "default": false,
                 "description": "Randomize the time until a switch turns off. Not used if the switch is stateful.",
-                "placeholder": false // Platzhalter hinzugefügt
+                "placeholder": false
             },
             "resettable": {
                 "title": "Resettable",
                 "type": "boolean",
                 "default": false,
                 "description": "The timer will reset each time the switch is turned on.",
-                "placeholder": false // Platzhalter hinzugefügt
+                "placeholder": false
             },
             "brightness": {
                 "title": "Brightness",
@@ -62,15 +62,15 @@
                 "default": 0,
                 "placeholder": 0,
                 "maximum": 100,
-                "minimum": 0, // Mindestwert für Helligkeit hinzugefügt (0–100)
+                "minimum": 0,
                 "description": "Starting brightness (dimmer only)"
             },
             "disableLogging": {
-                "title": "Disable Logging", // Leerzeichen im Titel, um mit Homebridge V2 konform zu sein
+                "title": "Disable Logging",
                 "type": "boolean",
                 "default": false,
                 "description": "No state change information (On/Off) will be logged.",
-                "placeholder": false // Platzhalter hinzugefügt
+                "placeholder": false
             }
         },
         "required": ["name"] // Das 'required' Attribut gehört jetzt auf Objektebene in V2
