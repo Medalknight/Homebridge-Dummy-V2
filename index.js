@@ -1,145 +1,74 @@
-"use strict";
+const Service, Characteristic;
+let switchTimer;
+let offTimeInMinutes = 5; // Standard-Zeit in Minuten (konfigurierbar)
 
-const storage = require('node-persist'); // Storage-Modul für persistente Speicherung von Zuständen
-const { HomebridgeDummyVersion } = require('./package.json'); // Version aus package.json
+module.exports = (homebridge) => {
+    Service = homebridge.hap.Service;
+    Characteristic = homebridge.hap.Characteristic;
 
-module.exports = (api) => {
-  // Registrieren des Zubehörs
-  api.registerAccessory("homebridge-dummy-v2", "DummySwitch", DummySwitch);
-}
+    homebridge.registerAccessory('homebridge-dummy-repeat-switch', 'RepeatSwitch', RepeatSwitch);
+};
 
-function DummySwitch(log, config, api) { // Constructor nimmt jetzt auch die api entgegen
-  this.log = log;
-  this.name = config.name;
-  this.stateful = config.stateful;
-  this.dimmer = config.dimmer;
-  this.brightness = config.brightness || 0;
-  this.brightnessStorageKey = this.name + "Brightness";
-  this.reverse = config.reverse;
-  this.time = config.time || 1000; // Standardwert gesetzt, falls nicht konfiguriert
-  this.resettable = config.resettable;
-  this.random = config.random;
-  this.disableLogging = config.disableLogging;
+class RepeatSwitch {
+    constructor(log, config) {
+        this.log = log;
+        this.name = config.name || 'Repeat Switch';
+        this.offTimeInMinutes = config.offTimeInMinutes || offTimeInMinutes; // Konfigurierbare Ausschaltzeit in Minuten
+        this.switchState = false; // Switch ist standardmäßig aus
 
-  // API und Cache-Verzeichnis
-  this.api = api; // Homebridge-API-Instanz speichern
-  this.cacheDirectory = this.api.user.persistPath(); // Pfad zur Persistenz
-
-  // Initialisierung des Speichers
-  storage.initSync({ dir: this.cacheDirectory, forgiveParseErrors: true });
-
-  // Zugriff auf Service und Characteristic
-  const { Service, Characteristic } = this.api.hap; // Homebridge API-Objekte holen
-
-  // Festlegen des Service-Typs: Dimmer oder Switch
-  if (this.dimmer) {
-    this._service = new Service.Lightbulb(this.name);
-    this.modelString = "Dummy Dimmer";
-  } else {
-    this._service = new Service.Switch(this.name);
-    this.modelString = "Dummy Switch";
-  }
-
-  // Accessory Information Service
-  this.informationService = new Service.AccessoryInformation();
-  this.informationService
-    .setCharacteristic(Characteristic.Manufacturer, 'Homebridge')
-    .setCharacteristic(Characteristic.Model, this.modelString)
-    .setCharacteristic(Characteristic.FirmwareRevision, HomebridgeDummyVersion)
-    .setCharacteristic(Characteristic.SerialNumber, 'Dummy-' + this.name.replace(/\s/g, '-'));
-
-  // Schalter On/Off
-  this._service.getCharacteristic(Characteristic.On)
-    .on('set', this._setOn.bind(this));
-
-  // Dimmer: Helligkeit hinzufügen
-  if (this.dimmer) {
-    this._service.getCharacteristic(Characteristic.Brightness)
-      .on('get', this._getBrightness.bind(this))
-      .on('set', this._setBrightness.bind(this));
-  }
-
-  // Initialisierung des Schalterzustands
-  if (this.reverse) {
-    this._service.setCharacteristic(Characteristic.On, true);
-  }
-
-  // Stateful Switch: Zustand aus Storage laden
-  if (this.stateful) {
-    const cachedState = storage.getItemSync(this.name);
-    this._service.setCharacteristic(Characteristic.On, cachedState === undefined ? false : cachedState);
-  }
-
-  // Dimmer: Helligkeit aus Storage laden
-  if (this.dimmer) {
-    const cachedBrightness = storage.getItemSync(this.brightnessStorageKey);
-    this._service.setCharacteristic(Characteristic.Brightness, cachedBrightness === undefined ? 0 : cachedBrightness);
-    this._service.setCharacteristic(Characteristic.On, cachedBrightness > 0);
-  }
-}
-
-DummySwitch.prototype.getServices = function () {
-  // Rückgabe der verfügbaren Dienste
-  return [this.informationService, this._service];
-}
-
-// Helligkeit abrufen (Dimmer-Modus)
-DummySwitch.prototype._getBrightness = function (callback) {
-  if (!this.disableLogging) {
-    this.log("Getting brightness: " + this.brightness);
-  }
-  callback(null, this.brightness); // Rückgabe des aktuellen Helligkeitswerts
-}
-
-// Helligkeit setzen (Dimmer-Modus)
-DummySwitch.prototype._setBrightness = function (brightness, callback) {
-  if (!this.disableLogging) {
-    this.log("Setting brightness: " + brightness);
-  }
-
-  this.brightness = brightness;
-  storage.setItemSync(this.brightnessStorageKey, brightness); // Helligkeitswert speichern
-
-  callback();
-}
-
-// Schalterzustand setzen
-DummySwitch.prototype._setOn = function (on, callback) {
-  const delay = this.random ? randomize(this.time) : this.time;
-  const msg = `Setting switch to ${on}`;
-
-  if (this.random && !this.stateful) {
-    this.log(msg + ` (random delay ${delay}ms)`);
-  } else if (!this.disableLogging) {
-    this.log(msg);
-  }
-
-  // Automatisches Zurücksetzen des Schalters nach Ablauf der Zeit
-  if (on && !this.reverse && !this.stateful) {
-    if (this.resettable) {
-      clearTimeout(this.timer);
+        // Service für den Dummy-Switch
+        this.service = new Service.Switch(this.name);
+        this.service.getCharacteristic(Characteristic.On)
+            .on('get', this.getSwitchState.bind(this))
+            .on('set', this.setSwitchState.bind(this));
     }
-    this.timer = setTimeout(() => {
-      this._service.setCharacteristic(Characteristic.On, false);
-    }, delay);
-  } else if (!on && this.reverse && !this.stateful) {
-    if (this.resettable) {
-      clearTimeout(this.timer);
+
+    // Status des Switches abfragen
+    getSwitchState(callback) {
+        callback(null, this.switchState);
     }
-    this.timer = setTimeout(() => {
-      this._service.setCharacteristic(Characteristic.On, true);
-    }, delay);
-  }
 
-  // Stateful-Schalterzustand speichern
-  if (this.stateful) {
-    storage.setItemSync(this.name, on);
-  }
+    // Status des Switches setzen
+    setSwitchState(state, callback) {
+        this.switchState = state;
+        this.log(`Switch state set to ${this.switchState}`);
 
-  callback();
-}
+        if (this.switchState) {
+            this.startSwitchTimer();
+        } else {
+            clearTimeout(switchTimer);
+        }
 
-// Zufälligen Verzögerungswert generieren
-function randomize(time) {
-  return Math.floor(Math.random() * (time + 1));
+        callback(null);
+    }
+
+    // Timer starten, um den Switch nach der konfigurierten Zeit wieder auszuschalten
+    startSwitchTimer() {
+        clearTimeout(switchTimer);
+
+        this.log(`Switch will turn off in ${this.offTimeInMinutes} minute(s).`);
+        
+        switchTimer = setTimeout(() => {
+            this.switchState = false;
+            this.service.getCharacteristic(Characteristic.On).updateValue(this.switchState);
+            this.log('Switch turned off.');
+
+            this.log(`Switch will turn on again shortly.`);
+            this.startSwitchCycle(); // Wiederholung starten
+        }, this.offTimeInMinutes * 60 * 1000);
+    }
+
+    // Der Switch wird nach dem Ausschalten nach einer kurzen Zeit wieder aktiviert
+    startSwitchCycle() {
+        setTimeout(() => {
+            this.switchState = true;
+            this.service.getCharacteristic(Characteristic.On).updateValue(this.switchState);
+            this.log('Switch turned on again.');
+            this.startSwitchTimer(); // Zyklus wiederholen
+        }, 5000); // Warten Sie 5 Sekunden, bevor Sie den Switch wieder einschalten
+    }
+
+    getServices() {
+        return [this.service];
+    }
 }
