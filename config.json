@@ -1,0 +1,9 @@
+{
+  "platforms": [
+    {
+      "platform": "HomebridgeDummySwitchPlatform",
+      "name": "Dummy Switch",
+      "delayTime": 10
+    }
+  ]
+}
