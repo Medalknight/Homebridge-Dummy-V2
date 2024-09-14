@@ -1,4 +1,4 @@
-const { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } = require('homebridge');
+const { API, DynamicPlatformPlugin, PlatformAccessory, Service, Characteristic } = require('homebridge');
 
 const PLUGIN_NAME = 'homebridge-dummy-v2';
 const PLATFORM_NAME = 'HomebridgeDummySwitchPlatform';
