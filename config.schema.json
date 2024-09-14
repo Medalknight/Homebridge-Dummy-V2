@@ -1,15 +1,29 @@
 {
-  "bridge": {
-    "name": "Homebridge",
-    "username": "CC:22:3D:E3:CE:30",
-    "port": 51826,
-    "pin": "031-45-154"
+  "pluginAlias": "HomebridgeDummySwitch",
+  "pluginType": "platform",
+  "singular": true,
+  "schema": {
+    "properties": {
+      "name": {
+        "title": "Platform Name",
+        "type": "string",
+        "required": true
+      },
+      "delayTime": {
+        "title": "Delay Time (seconds before turning on)",
+        "type": "integer",
+        "minimum": 1,
+        "required": true,
+        "default": 10
+      }
+    }
   },
-  "accessories": [
+  "layout": [
     {
-      "accessory": "RepeatSwitch",
-      "name": "Dummy Repeat Switch",
-      "offTimeInMinutes": 5
+      "key": "name"
+    },
+    {
+      "key": "delayTime"
     }
   ]
 }
