@@ -10,9 +10,7 @@
   "engines": {
     "homebridge": "^1.0.0"
   },
-  "dependencies": {
-    "homebridge": "^1.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "homebridge-config-ui-x": "^4.0.0"
   },
