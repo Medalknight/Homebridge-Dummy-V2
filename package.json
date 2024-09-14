@@ -23,7 +23,7 @@
     "type": "git",
     "url": "https://github.com/Medalknight/homebridge-dummy-v2"
   },
-  "author": "Your Name",
+  "author": "Medalknight",
   "license": "ISC",
   "private": true,
   "homebridge": {
