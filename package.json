@@ -1,0 +1,18 @@
+{
+  "name": "homebridge-dummy-v2",
+  "version": "0.1.0",
+  "description": "Homebridge Plugin to create a dummy switch with auto on and off behavior",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "homebridge-plugin",
+    "dummy-switch"
+  ],
+  "author": "Medalknight",
+  "license": "ISC",
+  "dependencies": {
+    "homebridge": "^1.5.0"
+  }
+}
