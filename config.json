@@ -1,0 +1,9 @@
+{
+  "accessories": [
+    {
+      "accessory": "DummySwitch",
+      "name": "Dummy Switch",
+      "autoOnTime": 5000
+    }
+  ]
+}
