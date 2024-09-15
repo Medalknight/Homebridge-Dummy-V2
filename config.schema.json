@@ -1,0 +1,23 @@
+{
+  "pluginAlias": "DummySwitch",
+  "pluginType": "accessory",
+  "singular": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "title": "Name",
+        "type": "string",
+        "default": "Dummy Switch",
+        "description": "The name of the dummy switch."
+      },
+      "autoOnTime": {
+        "title": "Auto ON Time (ms)",
+        "type": "integer",
+        "default": 5000,
+        "description": "The time (in milliseconds) after which the dummy switch will automatically turn on."
+      }
+    },
+    "required": ["name"]
+  }
+}
